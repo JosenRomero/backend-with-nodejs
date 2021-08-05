@@ -18,6 +18,7 @@ app.use(cors({
 }));
 
 // Routes
+app.use("/api/task", require("./routes/task.routes"));
 
 // Starting the server
 app.listen(app.get("port"), () => {
