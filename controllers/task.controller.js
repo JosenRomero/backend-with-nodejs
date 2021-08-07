@@ -2,6 +2,22 @@ const mongoose = require("mongoose");
 
 const Task = require("../models/taskModel");
 
+exports.getAllTask = async (req, res) => {
+
+    try {
+
+        const tasks = await Task.find();
+		
+        res.json(tasks);
+
+    } catch(err) {
+
+        console.error("Failed!!!");
+
+    }
+
+}
+
 exports.getTask = async (req, res) => {
 
     try {
@@ -33,7 +49,7 @@ exports.newTask = async (req, res) => {
         });
 
         await task.save();
-
+		
         res.json({status: "Task Saved"});
 
     } catch(err) {
