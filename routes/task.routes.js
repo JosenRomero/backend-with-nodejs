@@ -3,7 +3,7 @@ const router = express.Router();
 
 const taskController = require('../controllers/task.controller');
 
-router.get("/tasks", taskController.getAllTask);
+router.get("/all/userId/:userId", taskController.getAllTasks);
 
 router.get("/:id", taskController.getTask);
 

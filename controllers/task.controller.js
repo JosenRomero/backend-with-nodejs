@@ -1,18 +1,44 @@
 const mongoose = require("mongoose");
 
 const Task = require("../models/taskModel");
+const User = require("../models/userModel");
 
-exports.getAllTask = async (req, res) => {
+exports.getAllTasks = async (req, res) => {
 
     try {
 
-        const tasks = await Task.find();
+        // retornará todas las tasks de un user
+        const tasks = await Task.aggregate([
+            {
+                $lookup: { 
+                    from: User.collection.name, // userModel
+                    localField: "userId", // taskModel
+                    foreignField: "_id", // userModel
+                    as: "userTasks" // alias
+                }
+            },
+            {
+                $unwind: "$userTasks"
+            },
+            /*
+            {
+                $project: {
+                    _id: 0
+                }
+            },*/
+            {
+                $match: {
+                    // req.params.userId -> hace referencia a la ruta: "api/task/all/userId/:userId"
+                    userId: mongoose.Types.ObjectId(req.params.userId)
+                }
+            }
+        ])
 		
         res.json(tasks);
 
     } catch(err) {
 
-        console.error("Failed!!!");
+        console.error("Failed to get user Tasks");
 
     }
 
@@ -28,7 +54,7 @@ exports.getTask = async (req, res) => {
 
     } catch(err) {
 
-        console.error("Failed!!!");
+        console.error("Failed to task");
 
     }
 

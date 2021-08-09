@@ -4,8 +4,7 @@ const { Schema } = mongoose;
 const TaskSchema = new Schema(
     {
         userId: { 
-            type: String, 
-            required: true 
+            type: Schema.Types.ObjectId
         },
         title: { 
             type: String, 
@@ -22,7 +21,7 @@ const TaskSchema = new Schema(
         likers: {
             type: [String],
             required: true,
-        },
+        }
     }, {
         timestamps: true,
 });
