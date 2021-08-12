@@ -7,14 +7,14 @@ exports.getAllTasks = async (req, res) => {
 
     try {
 
-        // retornará todas las tasks de un user
+        // return all user Tasks
         const tasks = await Task.aggregate([
             {
                 $lookup: { 
                     from: User.collection.name, // userModel
                     localField: "userId", // taskModel
                     foreignField: "_id", // userModel
-                    as: "userTasks" // alias
+                    as: "userTasks"
                 }
             },
             {
@@ -28,7 +28,7 @@ exports.getAllTasks = async (req, res) => {
             },*/
             {
                 $match: {
-                    // req.params.userId -> hace referencia a la ruta: "api/task/all/userId/:userId"
+                    // get "api/task/all/userId/:userId"
                     userId: mongoose.Types.ObjectId(req.params.userId)
                 }
             }
@@ -74,9 +74,9 @@ exports.newTask = async (req, res) => {
             likers
         });
 
-        await task.save();
+        const result = await task.save();
 		
-        res.json({status: "Task Saved"});
+        res.json({status: "Task Saved", newTask: result});
 
     } catch(err) {
         console.error("Failed to new task");
@@ -92,9 +92,10 @@ exports.updateTask = async (req, res) => {
 
         const task = { title, description, publicTask }
 
-        await Task.findByIdAndUpdate(req.params.id, task);
-
-        res.json({status: "Task Updated"});
+		//  options {new: true}, will give you the object after update was applied
+        const result = await Task.findByIdAndUpdate(req.params.id, task, {new: true});
+		
+        res.json({status: "Task Updated", task: result});
 
     }catch(err) {
         console.error("Failed to update task");
@@ -109,6 +110,21 @@ exports.deleteTask = async (req, res) => {
         await Task.findByIdAndRemove(req.params.id);
 
         res.json({status: "Task Deleted"});
+
+    }catch(err) {
+        console.error("Failed to delete task");
+    }
+
+}
+
+exports.deleteAllTasks = async (req, res) => {
+
+    try {
+
+        // delete "api/task/all/userId/:userId"
+        await Task.deleteMany({userId: req.params.userId});
+
+        res.json({status: "All Tasks Deleted"});
 
     }catch(err) {
         console.error("Failed to delete task");

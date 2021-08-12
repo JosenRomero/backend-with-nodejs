@@ -13,4 +13,6 @@ router.put("/:id", taskController.updateTask);
 
 router.delete("/:id", taskController.deleteTask);
 
+router.delete("/all/userId/:userId", taskController.deleteAllTasks);
+
 module.exports = router;
