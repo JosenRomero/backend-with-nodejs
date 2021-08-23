@@ -9,31 +9,32 @@ exports.getAllTasks = async (req, res) => {
 
         // return all user Tasks
         const tasks = await Task.aggregate([
+            /*
             {
                 $lookup: { 
                     from: User.collection.name, // userModel
                     localField: "userId", // taskModel
                     foreignField: "_id", // userModel
-                    as: "userTasks"
+                    as: "userInfo"
                 }
             },
             {
-                $unwind: "$userTasks"
-            },
-            /*
-            {
-                $project: {
-                    _id: 0
-                }
+                $unwind: "$userInfo"
             },*/
             {
                 $match: {
                     // get "api/task/all/userId/:userId"
                     userId: mongoose.Types.ObjectId(req.params.userId)
-                }
+                }  
             }
-        ])
-		
+            /*
+            {
+                $project: {
+                    __v: 0
+                }
+            }*/
+        ]);
+        
         res.json(tasks);
 
     } catch(err) {

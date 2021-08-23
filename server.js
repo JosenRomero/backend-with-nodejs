@@ -4,6 +4,7 @@ require('dotenv').config({path: './config/.env'});
 require("./config/database");
 const passport = require('passport');
 const session = require('express-session');
+const MongoStore = require('connect-mongo');
 
 const app = express();
 
@@ -17,10 +18,13 @@ app.use(express.json());
 app.use(session({
     name: "session",
     secret: process.env.SECRETCODE,
-    resave: true,
-    saveUninitialized: true,
+    resave: false, //don't save session if unmodified
+    saveUninitialized: false, // don't create session until something stored
     secure: true,
-    maxAge: 1000 * 60 * 60 * 24 * 7 // One Week
+    maxAge: 1000 * 60 * 60 * 24 * 7, // One Week
+    store: MongoStore.create({ 
+        mongoUrl: process.env.URI_DB
+    })
 }));
 
 // initalize passport

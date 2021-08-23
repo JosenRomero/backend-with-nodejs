@@ -1,10 +1,8 @@
 const mongoose = require("mongoose");
 
-const URI = "mongodb://localhost/dailyDB";
-
 mongoose
     .connect(
-        URI, 
+        process.env.URI_DB, 
         { 
             useNewUrlParser: true, 
             useUnifiedTopology: true,
