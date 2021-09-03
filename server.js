@@ -5,6 +5,8 @@ require("./config/database");
 const passport = require('passport');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
+const notFound = require("./middlewares/notFound");
+const handleErrors = require("./middlewares/handleErrors");
 
 const app = express();
 
@@ -43,6 +45,10 @@ app.use(cors({
 // Routes
 app.use("/api/task", require("./routes/task.routes"));
 app.use("/auth", require("./routes/auth.routes"));
+
+app.use(notFound);
+
+app.use(handleErrors);
 
 // Starting the server
 app.listen(app.get("port"), () => {

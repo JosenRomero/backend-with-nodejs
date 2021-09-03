@@ -1,5 +1,5 @@
 
-exports.login = async (req, res) => {
+exports.login = async (req, res, next) => {
 
     if(req.user) {
 
@@ -8,6 +8,8 @@ exports.login = async (req, res) => {
             user: req.user
         });
 
+    }else {
+        next({error: {name: 'CustomError'}, message: "Unauthorized", status: 401});
     }
 
 }

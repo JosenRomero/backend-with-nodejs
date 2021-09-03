@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const Task = require("../models/taskModel");
 const User = require("../models/userModel");
 
-exports.getAllTasks = async (req, res) => {
+exports.getAllTasks = async (req, res, next) => {
 
     try {
 
@@ -34,34 +34,30 @@ exports.getAllTasks = async (req, res) => {
                 }
             }*/
         ]);
-        
-        res.json(tasks);
+
+        res.status(200).json({tasks});
 
     } catch(err) {
-
-        console.error("Failed to get user Tasks");
-
+        next({error: err, message: "Failed to get user Tasks", status: 404});
     }
 
 }
 
-exports.getTask = async (req, res) => {
+exports.getTask = async (req, res, next) => {
 
     try {
 
-        const task = await Task.findById(req.params.id);
+        const oneTask = await Task.findById(req.params.id);
 
-        res.json(task);
+        res.status(200).json({oneTask});
 
     } catch(err) {
-
-        console.error("Failed to task");
-
+        next({error: err, message: "Failed to get task", status: 404});
     }
 
 }
 
-exports.newTask = async (req, res) => {
+exports.newTask = async (req, res, next) => {
 
     try {
 
@@ -77,15 +73,15 @@ exports.newTask = async (req, res) => {
 
         const result = await task.save();
 		
-        res.json({status: "Task Saved", newTask: result});
+        res.status(201).json({message: "Task Saved", newTask: result});
 
     } catch(err) {
-        console.error("Failed to new task");
+        next({error: err, message: "Failed to new task", status: 500});
     }
 
 }
 
-exports.updateTask = async (req, res) => {
+exports.updateTask = async (req, res, next) => {
 
     try {
 
@@ -96,39 +92,39 @@ exports.updateTask = async (req, res) => {
 		//  options {new: true}, will give you the object after update was applied
         const result = await Task.findByIdAndUpdate(req.params.id, task, {new: true});
 		
-        res.json({status: "Task Updated", task: result});
+        res.status(200).json({message: "Task Updated", task: result});
 
     }catch(err) {
-        console.error("Failed to update task");
+        next({error: err, message: "Failed to update task", status: 500});
     }
 
 }
 
-exports.deleteTask = async (req, res) => {
+exports.deleteTask = async (req, res, next) => {
 
     try {
 
         await Task.findByIdAndRemove(req.params.id);
 
-        res.json({status: "Task Deleted"});
+        res.status(200).json({message: "Task Deleted"});
 
     }catch(err) {
-        console.error("Failed to delete task");
+        next({error: err, message: "Failed to delete task", status: 500});
     }
 
 }
 
-exports.deleteAllTasks = async (req, res) => {
+exports.deleteAllTasks = async (req, res, next) => {
 
     try {
 
         // delete "api/task/all/userId/:userId"
         await Task.deleteMany({userId: req.params.userId});
 
-        res.json({status: "All Tasks Deleted"});
+        res.status(200).json({message: "All Tasks Deleted"});
 
     }catch(err) {
-        console.error("Failed to delete task");
+        next({error: err, message: "Failed to delete all tasks", status: 500});
     }
 
 }
