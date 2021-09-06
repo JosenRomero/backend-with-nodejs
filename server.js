@@ -43,6 +43,7 @@ app.use(cors({
 }));
 
 // Routes
+app.use("/", require("./routes/index.routes"));
 app.use("/api/task", require("./routes/task.routes"));
 app.use("/auth", require("./routes/auth.routes"));
 
