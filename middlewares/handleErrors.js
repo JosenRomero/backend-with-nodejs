@@ -18,17 +18,16 @@ const ERROR_HANDLERS = {
 module.exports = ({error, message, status}, req, res, next) => {
 
     console.log("handleError: ");
+
+    const errorName = undefined;
     
     if(error) {
-
-        console.log(error);
-        
-        const handler = ERROR_HANDLERS[error.name] || ERROR_HANDLERS.defaultError
-
-        handler(res, message, status);
-
-    }else {
-        console.log("Something went wrong and error is Undefined");
+        console.log(error.name);
+        errorName = error.name
     }
+        
+    const handler = ERROR_HANDLERS[errorName] || ERROR_HANDLERS.defaultError
+
+    handler(res, message, status);
 
 }
