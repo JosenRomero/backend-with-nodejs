@@ -19,15 +19,19 @@ module.exports = ({error, message, status}, req, res, next) => {
 
     console.log("handleError: ");
 
-    const errorName = undefined;
-    
+    const handler;
+
     if(error) {
-        console.log(error.name);
-        errorName = error.name
-    }
         
-    const handler = ERROR_HANDLERS[errorName] || ERROR_HANDLERS.defaultError
+        console.log(error.name);
+        
+        handler = ERROR_HANDLERS[error.name] || ERROR_HANDLERS.defaultError
+
+    }else {
+        handler = ERROR_HANDLERS.defaultError
+    }
 
     handler(res, message, status);
+
 
 }
