@@ -31,7 +31,4 @@ module.exports = ({error, message, status}, req, res, next) => {
         ERROR_HANDLERS.defaultError(res, message, status);
     }
 
-    
-
-
 }
