@@ -6,20 +6,12 @@ module.exports = function(passport) {
 
     // serialize the user.id to save in the cookie session
     passport.serializeUser((user, done) => {
-        done(null, user.id);
+        done(null, user);
     });
 
     // deserialize the cookie UserId to user in the database
-    passport.deserializeUser((id, done) => {
-
-        User.findById(id)
-            .then(user => {
-                done(null, user);
-            })
-            .catch(err => {
-                done(new Error("Failed to deserialize an user"));
-            });
-
+    passport.deserializeUser((user, done) => {
+        done(null, user)
     });
 
     passport.use(new FacebookStrategy({
