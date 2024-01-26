@@ -14,9 +14,18 @@ exports.login = async (req, res, next) => {
 
 }
 
-exports.logout = async (req, res) => {
+exports.logout = async (req, res, next) => {
 
-    req.logout();
-    res.redirect(process.env.CLIENT_URL);
+    res.clearCookie('connect.sid', { sameSite: 'none', secure: true });
+
+    req.logout(function(err) {
+
+        if(err) return next(err)
+        
+        req.session.destroy(function (err) {
+            res.json({ message: "logout" });
+        })
+
+    });
 
 }

@@ -25,14 +25,15 @@ router.get('/google', passport.authenticate('google', { scope: ['https://www.goo
 
 router.get(
     '/google/callback', 
-    passport.authenticate('google', { failureRedirect: process.env.CLIENT_URL, }), 
-    function(req, res) {
-        res.redirect(`${process.env.CLIENT_URL}/tasks`);
-    }
+    passport.authenticate('google', 
+    { 
+        successRedirect: `${process.env.CLIENT_URL}/tasks`,
+        failureRedirect: process.env.CLIENT_URL, 
+    })
 );
 
-router.get("/login/success", authController.login);
+router.post("/login/success", authController.login);
 
-router.get("/logout", authController.logout);
+router.post("/logout", authController.logout);
 
 module.exports = router;

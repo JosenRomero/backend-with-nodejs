@@ -17,17 +17,25 @@ app.set("port", process.env.PORT || 3001)
 
 app.use(express.json());
 
-app.use(session({
-    name: "session",
+const sessionConfig = {
     secret: process.env.SECRETCODE,
     resave: false, //don't save session if unmodified
     saveUninitialized: false, // don't create session until something stored
-    secure: true,
-    maxAge: 1000 * 60 * 60 * 24 * 7, // One Week
+    cookie: {
+        sameSite: 'none',
+        maxAge: 1000 * 60 * 60 * 24 * 7, // One Week
+    },
     store: MongoStore.create({ 
         mongoUrl: process.env.URI_DB
     })
-}));
+}
+
+if(process.env.NODE_ENV == 'production') {
+    app.set('trust proxy', 1); // trust first proxy
+    sessionConfig.cookie.secure = true;// serve secure cookies
+}
+
+app.use(session(sessionConfig));
 
 // initalize passport
 app.use(passport.initialize()); 
