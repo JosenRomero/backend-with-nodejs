@@ -27,7 +27,7 @@ router.get(
     '/google/callback', 
     passport.authenticate('google', 
     { 
-        successRedirect: `${process.env.CLIENT_URL}/tasks`,
+        successRedirect: `${process.env.CLIENT_URL}/`,
         failureRedirect: process.env.CLIENT_URL, 
     })
 );
