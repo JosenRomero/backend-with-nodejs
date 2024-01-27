@@ -17,22 +17,20 @@ app.set("port", process.env.PORT || 3001)
 
 app.use(express.json());
 
+app.set('trust proxy', 1);
+
 const sessionConfig = {
     secret: process.env.SECRETCODE,
     resave: false, //don't save session if unmodified
     saveUninitialized: false, // don't create session until something stored
     cookie: {
-        sameSite: 'none',
+        sameSite: 'None',
+        secure: true,
         maxAge: 1000 * 60 * 60 * 24 * 7, // One Week
     },
     store: MongoStore.create({ 
         mongoUrl: process.env.URI_DB
     })
-}
-
-if(process.env.NODE_ENV == 'production') {
-    app.set('trust proxy', 1); // trust first proxy
-    sessionConfig.cookie.secure = true;// serve secure cookies
 }
 
 app.use(session(sessionConfig));
