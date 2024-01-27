@@ -46,7 +46,7 @@ app.use(passport.session());
 // set up cors to allow us to accept requests from our client
 app.use(cors({
     origin: process.env.CLIENT_URL,
-    methods: "GET, HEAD, PUT, PATCH, POST, DELETE",
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true // allow session cookie from browser to pass through
 }));
 
