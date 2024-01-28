@@ -16,7 +16,7 @@ exports.login = async (req, res, next) => {
 
 exports.logout = async (req, res, next) => {
 
-    res.clearCookie('connect.sid', { sameSite: 'None', secure: true });
+    res.clearCookie('connect.sid', { sameSite: 'None', secure: true, httpOnly: true });
 
     req.logout(function(err) {
 
