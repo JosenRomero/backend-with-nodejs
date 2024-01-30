@@ -26,6 +26,7 @@ const sessionConfig = {
     cookie: {
         sameSite: 'None',
         secure: true,
+        domain: process.env.API_URL,
         maxAge: 1000 * 60 * 60 * 24 * 7, // One Week
     },
     store: MongoStore.create({ 
