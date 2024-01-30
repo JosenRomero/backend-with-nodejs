@@ -24,7 +24,7 @@ const sessionConfig = {
     resave: false, //don't save session if unmodified
     saveUninitialized: false, // don't create session until something stored
     cookie: {
-        sameSite: 'None',
+        sameSite: 'none',
         secure: true,
         maxAge: 1000 * 60 * 60 * 24 * 7, // One Week
     },
