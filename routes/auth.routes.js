@@ -26,11 +26,11 @@ router.get('/google', passport.authenticate('google', { scope: ['https://www.goo
 router.get(
     '/google/callback', 
     passport.authenticate('google', 
-    { 
-        successRedirect: `${process.env.CLIENT_URL}/`,
-        failureRedirect: process.env.CLIENT_URL, 
-    })
-);
+    { failureRedirect: process.env.CLIENT_URL },
+    function(req, res) {
+        res.redirect(`${process.env.CLIENT_URL}/`);
+    }
+));
 
 router.post("/login/success", authController.login);
 
