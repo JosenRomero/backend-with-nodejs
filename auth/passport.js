@@ -12,7 +12,8 @@ module.exports = function(passport) {
     // deserialize the cookie UserId to user in the database
     passport.deserializeUser(async (obj, done) => {
         try {
-            const user = await User.findOne({ "uid": obj.id});
+            const user = await User.findOne({ "uid": obj.uid});
+            console.log("deserializeUser: ", user);
             done(null, user);
         } catch (error) {
             done(error);
