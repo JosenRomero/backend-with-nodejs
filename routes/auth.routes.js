@@ -28,7 +28,6 @@ router.get(
     passport.authenticate('google', 
     { failureRedirect: process.env.CLIENT_URL }),
     (req, res) => {
-        console.log(req.user); // TODO: remove this code
         res.redirect(`${process.env.CLIENT_URL}/`);
     }
 );

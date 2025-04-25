@@ -9,6 +9,7 @@ exports.login = (req, res, next) => {
         });
 
     }else {
+        console.log("No autenticado. Session:", req.session); // TODO: remove this code
         next({error: {name: 'CustomError'}, message: "Unauthorized", status: 401});
     }
 
