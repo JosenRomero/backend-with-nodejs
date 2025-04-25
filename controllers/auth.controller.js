@@ -1,9 +1,6 @@
 
 exports.login = (req, res, next) => {
 
-    console.log("session: ", req.session);
-    console.log("user: ", req.user);
-
     if(req.isAuthenticated()) {
 
         res.status(200).json({
