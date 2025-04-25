@@ -1,7 +1,7 @@
 
-exports.login = async (req, res, next) => {
+exports.login = (req, res, next) => {
 
-    if(req.user) {
+    if(req.isAuthenticated()) {
 
         res.status(200).json({
             message: "user has successfully authenticated",
