@@ -1,8 +1,6 @@
 
 exports.login = (req, res, next) => {
 
-    console.log("user: ", req.user); // TODO: remove this code
-
     if(req.isAuthenticated()) {
 
         res.status(200).json({

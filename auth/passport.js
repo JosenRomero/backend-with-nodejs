@@ -10,8 +10,13 @@ module.exports = function(passport) {
     });
 
     // deserialize the cookie UserId to user in the database
-    passport.deserializeUser((user, done) => {
-        done(null, user)
+    passport.deserializeUser(async ({ _id }, done) => {
+        try {
+            const user = await User.findOne({ "uid": _id})
+            done(null, user);
+        } catch (error) {
+            done(error);
+        }
     });
 
     passport.use(new FacebookStrategy({
