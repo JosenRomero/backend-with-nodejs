@@ -1,6 +1,8 @@
 
 exports.login = (req, res, next) => {
 
+    console.log("user: ", req.user); // TODO: remove this code
+
     if(req.isAuthenticated()) {
 
         res.status(200).json({
@@ -9,7 +11,6 @@ exports.login = (req, res, next) => {
         });
 
     }else {
-        console.log("No autenticado. Session:", req.session); // TODO: remove this code
         next({error: {name: 'CustomError'}, message: "Unauthorized", status: 401});
     }
 
